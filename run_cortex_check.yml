@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+#  gather_facts: no
+
+  tasks:
+    - name: return cortex_check to registered var
+      command: /opt/traps/bin/cytool runtime query
+      become: true
+      register: cortex
+    - name: check if cotex is running on the host
+      debug:
+        msg: "cortex is running"
+      when: cortex.stdout.find('Running') != -1
+    - name: display this msg when cortex is not running
+      debug:
+        msg: "cortex is not running"
+      when: cortex.stdout.find('STOPPED') != -1
