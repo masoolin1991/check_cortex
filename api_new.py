@@ -20,9 +20,8 @@ def get_data_from_api():
     if res.getcode() != 200:
             print("api call not successfull")
             exit(0)
-
-
-    res_dict = json.loads(data)
+    else:
+        return json.loads(data)
 
 
 """
@@ -61,13 +60,13 @@ res_dict = json.loads(data)
 
 
 ## this func will save all hosts in a list ##
-def save_all_host():
+def save_all_host(res_dict):
     for i in range(0, len(res_dict['reply'])):
         all_host_list.append(res_dict['reply'][i]['host_name'])
 
 def main():
-    get_data_from_api()
-    save_all_host()
+    res_dict=get_data_from_api()
+    save_all_host(res_dict)
     print(all_host_list)
 
 if __name__ == '__main__':
